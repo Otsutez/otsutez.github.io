@@ -1,8 +1,25 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
-theme = 'ananke'
+title = '1am Philosophy'
+author = "Otsute"
+theme = 'hugo-bearcub'
+enableRobotsTXT = true
+copyright = "Otsute (CC BY 4.0)"
 
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
+
+[markup]
+  [markup.highlight]
+    lineNos = true
+    lineNumbersInTable = false
+    noClasses = false
+
+[params]
+  # The description of your website
+  description = "A blog by Otsute"
+  themeStyle = "original"
+  madeWith = "Made with [Bear Cub](https://github.com/clente/hugo-bearcub)"
+
+
