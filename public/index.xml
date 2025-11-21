@@ -10,6 +10,23 @@
     <lastBuildDate>Thu, 20 Nov 2025 16:54:23 +1100</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Credit</title>
+      <link>http://localhost:1313/credit/</link>
+      <pubDate>Fri, 21 Nov 2025 15:31:07 +1100</pubDate>
+      <guid>http://localhost:1313/credit/</guid>
+      <description>Credits Cat emoji credit: https://emojicombos.com/cute-ascii-emoji&#xA;Moon favicon was generated using the following graphics from Twitter Twemoji:&#xA;Graphics Title: 1f314.svg Graphics Author: Copyright 2020 Twitter, Inc and other contributors (https://github.com/twitter/twemoji) Graphics Source: https://github.com/twitter/twemoji/blob/master/assets/svg/1f314.svg Graphics License: CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/) </description>
+      <content:encoded><![CDATA[<h2 id="credits">Credits</h2>
+<p>Cat emoji credit: <a href="https://emojicombos.com/cute-ascii-emoji">https://emojicombos.com/cute-ascii-emoji</a></p>
+<p>Moon favicon was generated using the following graphics from Twitter Twemoji:</p>
+<ul>
+<li>Graphics Title: 1f314.svg</li>
+<li>Graphics Author: Copyright 2020 Twitter, Inc and other contributors (<a href="https://github.com/twitter/twemoji">https://github.com/twitter/twemoji</a>)</li>
+<li>Graphics Source: <a href="https://github.com/twitter/twemoji/blob/master/assets/svg/1f314.svg">https://github.com/twitter/twemoji/blob/master/assets/svg/1f314.svg</a></li>
+<li>Graphics License: CC-BY 4.0 (<a href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a>)</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
       <title>The Idealist Me</title>
       <link>http://localhost:1313/blog/idealist/</link>
       <pubDate>Thu, 20 Nov 2025 17:57:23 +1100</pubDate>
