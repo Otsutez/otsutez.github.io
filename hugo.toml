@@ -21,5 +21,6 @@ copyright = "Otsute (CC BY 4.0)"
   description = "A blog by Otsute"
   themeStyle = "original"
   madeWith = "Made with [Bear Cub](https://github.com/clente/hugo-bearcub)"
+  favicon = "images/favicon.ico"
 
 
