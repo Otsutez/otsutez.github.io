@@ -1,0 +1,18 @@
+---
+title: "AOC Day 5 [Part 2] - Greedy Algorithms"
+date: 2025-12-05T21:49:18+11:00
+draft: true
+---
+
+[Advent of Code](https://adventofcode.com) is a famous website that releases one programming puzzle each day, starting from the 1st and usually ending on the 25th (like an advent calendar) of December. This year, only 12 puzzles will be released in the first 12 days. While this is sad news for many Advent of Code enjoyers like me, I think this gives me an opportunity to finish every day's puzzle for the first time. Anyway, I want to write about how greedy algorithm can be used to solve part 2 of today's problem (Day 5 [Part 2]).
+
+Part 2 of today's puzzle is basically given a list of ranges,
+```
+3-5
+10-14
+16-20
+12-18
+```
+count how many distinct numbers there are in all these ranges. In the above example, there are 14 distinct numbers: `3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20`.
+
+Here is my solution to the problem. First read in and store all the ranges in a vector. Then sort the vector in ascending order of starting points, then ascending order of ending point. Then apply a greedy algorithm where we take the leftmost (starting first) range, increase the endpoint of this range if it intersects with another range (this.end >= other.start). Repeat until there are no more ranges to the right that intersect with our new range. 
