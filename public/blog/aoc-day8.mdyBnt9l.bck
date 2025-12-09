@@ -1,0 +1,50 @@
+---
+title: "AOC Day 8 [Part 1] - Union Find and Kruskal's Algorithm"
+date: 2025-12-09T21:03:23+07:00
+draft: true
+---
+
+In today's puzzle, we're given a list of 3d coordinates each representing the location of an electrical junction box. In part 1 we're asked to connect together the closest 1000 pairs of junction boxes and find the product of the size of the three largest circuits.
+```
+162,817,812
+57,618,57
+906,360,560
+592,479,940
+352,342,300
+466,668,158
+...
+```
+Note that if a pair is already in the same circuit, nothing happens. What we're basically doing in this problem is building a minimum spanning tree from a complete graph where each edge's weight is the straight line distance between 2 junction boxes.
+
+Implementing Kruskal's algorithm with the Union Find data structure has been on my To-do list since learning about it in my algorithm design course. This is a perfect opportunity for me to do just that! First I parsed the coordinates and create a sorted list of edges between each boxes. Then I implemented the Union-Find data structure with the help of my course's slides and [Geeks for Geeks](https://www.geeksforgeeks.org/dsa/introduction-to-disjoint-set-data-structure-or-union-find-algorithm/).
+```
+542,29,236
+431,825,988
+739,650,466
+52,470,668
+216,146,977
+819,987,18
+117,168,530
+805,96,715
+346,949,466
+970,615,88
+941,993,340
+862,61,35
+984,92,344
+425,690,689
+```
+
+---
+## Things I've learnt
+
+### Padding output
+This is how you pad integers when printing to standard output. Look into `<iomanip>` header to learn more about standard output formatting.
+
+```c++
+#include <iomanip>
+
+int main() {
+    std::cout << std::setfill(' ') << std::setw(3) << 25;
+    return 0;
+}
+```

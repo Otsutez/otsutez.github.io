@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="http://localhost:1313/images/favicon.ico" />
+<title>AOC Day 8 [Part 1] - Union Find and Kruskal&#39;s Algorithm | 1am Philosophy</title>
+<meta name="title" content="AOC Day 8 [Part 1] - Union Find and Kruskal&#39;s Algorithm" />
+<meta name="description" content="In today&rsquo;s puzzle, we&rsquo;re given a list of 3d coordinates each representing the location of an electrical junction box. In part 1 we&rsquo;re asked to connect together the closest 1000 pairs of junction boxes and find the product of the size of the three largest circuits.
+162,817,812 57,618,57 906,360,560 592,479,940 352,342,300 466,668,158 ...Note that if a pair is already in the same circuit, nothing happens. What we&rsquo;re basically doing in this problem is building a minimum spanning tree from a complete graph where each edge&rsquo;s weight is the straight line distance between 2 junction boxes." />
+<meta name="author" content="" />
+<meta name="keywords" content="" />
+
+
+
+
+
+
+  
+  <meta property="og:url" content="http://localhost:1313/blog/aoc-day8/">
+  <meta property="og:site_name" content="1am Philosophy">
+  <meta property="og:title" content="AOC Day 8 [Part 1] - Union Find and Kruskal&#39;s Algorithm">
+  <meta property="og:description" content="In today’s puzzle, we’re given a list of 3d coordinates each representing the location of an electrical junction box. In part 1 we’re asked to connect together the closest 1000 pairs of junction boxes and find the product of the size of the three largest circuits.
+162,817,812 57,618,57 906,360,560 592,479,940 352,342,300 466,668,158 ...Note that if a pair is already in the same circuit, nothing happens. What we’re basically doing in this problem is building a minimum spanning tree from a complete graph where each edge’s weight is the straight line distance between 2 junction boxes.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-12-09T21:03:23+07:00">
+    <meta property="article:modified_time" content="2025-12-09T21:03:23+07:00">
+
+
+  
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="AOC Day 8 [Part 1] - Union Find and Kruskal&#39;s Algorithm">
+  <meta name="twitter:description" content="In today’s puzzle, we’re given a list of 3d coordinates each representing the location of an electrical junction box. In part 1 we’re asked to connect together the closest 1000 pairs of junction boxes and find the product of the size of the three largest circuits.
+162,817,812 57,618,57 906,360,560 592,479,940 352,342,300 466,668,158 ...Note that if a pair is already in the same circuit, nothing happens. What we’re basically doing in this problem is building a minimum spanning tree from a complete graph where each edge’s weight is the straight line distance between 2 junction boxes.">
+
+
+  
+  
+  <meta itemprop="name" content="AOC Day 8 [Part 1] - Union Find and Kruskal&#39;s Algorithm">
+  <meta itemprop="description" content="In today’s puzzle, we’re given a list of 3d coordinates each representing the location of an electrical junction box. In part 1 we’re asked to connect together the closest 1000 pairs of junction boxes and find the product of the size of the three largest circuits.
+162,817,812 57,618,57 906,360,560 592,479,940 352,342,300 466,668,158 ...Note that if a pair is already in the same circuit, nothing happens. What we’re basically doing in this problem is building a minimum spanning tree from a complete graph where each edge’s weight is the straight line distance between 2 junction boxes.">
+  <meta itemprop="datePublished" content="2025-12-09T21:03:23+07:00">
+  <meta itemprop="dateModified" content="2025-12-09T21:03:23+07:00">
+  <meta itemprop="wordCount" content="454">
+
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  
+  <link href="/original.min.css" rel="stylesheet">
+
+  
+    
+    <link href="/syntax.min.css" rel="stylesheet">
+  
+
+  
+
+  
+</head>
+
+<body>
+  <header><a class="skip-link" href="#main-content">Skip to main content</a>
+
+<a href="/" class="title"><h1>1am Philosophy</h1></a>
+<nav>
+  <a href="/">Home</a>
+
+  <a href="/blog/">Blog</a>
+
+  <a href="/credit/">Credit</a>
+
+<a href='http://localhost:1313/index.xml'>RSS</a>
+
+
+
+
+
+
+
+</nav>
+</header>
+  <main id="main-content">
+
+<h1>AOC Day 8 [Part 1] - Union Find and Kruskal&#39;s Algorithm</h1>
+<p class="byline">
+  <time datetime='2025-12-09' pubdate>
+    2025-12-09
+  </time>
+  
+</p>
+
+<content>
+  <p>In today&rsquo;s puzzle, we&rsquo;re given a list of 3d coordinates each representing the location of an electrical junction box. In part 1 we&rsquo;re asked to connect together the closest 1000 pairs of junction boxes and find the product of the size of the three largest circuits.</p>
+
+
+
+
+
+<pre tabindex="0"><code>162,817,812
+57,618,57
+906,360,560
+592,479,940
+352,342,300
+466,668,158
+...</code></pre><p>Note that if a pair is already in the same circuit, nothing happens. What we&rsquo;re basically doing in this problem is building a minimum spanning tree from a complete graph where each edge&rsquo;s weight is the straight line distance between 2 junction boxes.</p>
+<p>Implementing Kruskal&rsquo;s algorithm with the Union Find data structure has been on my To-do list since learning about it in my algorithm design course. This is a perfect opportunity for me to do just that! First I parsed the coordinates and create a sorted list of edges between each boxes. Then I implemented the Union-Find data structure with the help of my course&rsquo;s slides and <a href="https://www.geeksforgeeks.org/dsa/introduction-to-disjoint-set-data-structure-or-union-find-algorithm/">Geeks for Geeks</a>. It&rsquo;s actually quite easy to implement. The parent array is used to keep track of connected components and root vertices. The subtree array is used to keep track of the size of each rooted subtree. We use recursion to implement the Find operation. The size of each subtree is compared when uniting sets and the taller tree is appointed as the new root for the new tree.</p>
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln"> 1</span><span class="cl"><span class="k">class</span> <span class="nc">UnionFind</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 2</span><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">parent</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 3</span><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">subtree</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln"> 4</span><span class="cl">
+</span></span><span class="line"><span class="ln"> 5</span><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="ln"> 6</span><span class="cl">    <span class="n">UnionFind</span><span class="p">(</span><span class="kt">int</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 7</span><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln"> 8</span><span class="cl">            <span class="n">parent</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln"> 9</span><span class="cl">            <span class="n">subtree</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">10</span><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="ln">11</span><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="ln">12</span><span class="cl">    
+</span></span><span class="line"><span class="ln">13</span><span class="cl">    <span class="kt">int</span> <span class="nf">find</span><span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">14</span><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">==</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">15</span><span class="cl">            <span class="k">return</span> <span class="n">v</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">16</span><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="ln">17</span><span class="cl">        <span class="k">return</span> <span class="n">find</span><span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">v</span><span class="p">]);</span>
+</span></span><span class="line"><span class="ln">18</span><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="ln">19</span><span class="cl">
+</span></span><span class="line"><span class="ln">20</span><span class="cl">    <span class="kt">bool</span> <span class="nf">unite</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">21</span><span class="cl">        <span class="kt">int</span> <span class="n">repu</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">u</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">22</span><span class="cl">        <span class="kt">int</span> <span class="n">repv</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">v</span><span class="p">);</span>
+</span></span><span class="line"><span class="ln">23</span><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">repu</span> <span class="o">==</span> <span class="n">repv</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">24</span><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">subtree</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">subtree</span><span class="p">[</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">25</span><span class="cl">            <span class="n">parent</span><span class="p">[</span><span class="n">repv</span><span class="p">]</span> <span class="o">=</span> <span class="n">repu</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">26</span><span class="cl">            <span class="n">subtree</span><span class="p">[</span><span class="n">repu</span><span class="p">]</span> <span class="o">+=</span> <span class="n">subtree</span><span class="p">[</span><span class="n">repv</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">27</span><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">28</span><span class="cl">            <span class="n">parent</span><span class="p">[</span><span class="n">repu</span><span class="p">]</span> <span class="o">=</span> <span class="n">repv</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">29</span><span class="cl">            <span class="n">subtree</span><span class="p">[</span><span class="n">repv</span><span class="p">]</span> <span class="o">+=</span> <span class="n">subtree</span><span class="p">[</span><span class="n">repu</span><span class="p">];</span>
+</span></span><span class="line"><span class="ln">30</span><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="ln">31</span><span class="cl">        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">32</span><span class="cl">    <span class="p">}</span></span></span></code></pre></div><p>For part 1 we just have to perform Kruskal&rsquo;s algorithm on the first 1000 smallest edges, then find the 3 biggest circuits and multiply their sizes. For part 2, we do full Kruskal&rsquo;s algorithm to create the minimum spanning tree with n - 1 edges. We then look at the last edge and multiply the x coordinates of the two boxes connected by that edge.</p>
+<hr>
+<h2 id="things-ive-learnt">Things I&rsquo;ve learnt</h2>
+<h3 id="padding-output">Padding output</h3>
+<p>This is how you pad integers when printing to standard output. Look into <code>&lt;iomanip&gt;</code> header to learn more about standard output formatting.</p>
+
+
+
+
+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="ln">1</span><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iomanip&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="ln">2</span><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="ln">3</span><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="ln">4</span><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">setfill</span><span class="p">(</span><span class="sc">&#39; &#39;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">setw</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">25</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">5</span><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="ln">6</span><span class="cl"><span class="p">}</span></span></span></code></pre></div>
+</content>
+<p>
+  
+</p>
+
+
+
+
+  </main>
+  <footer><small>
+  Otsute (CC BY 4.0) | Made with <a href="https://github.com/clente/hugo-bearcub">Bear Cub</a>
+</small></footer>
+
+    
+</body>
+
+</html>
