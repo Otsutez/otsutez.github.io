@@ -1,6 +1,6 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
-title = '1am Philosophy'
+title = '1am Brain Noise'
 author = "Otsute"
 theme = 'hugo-bearcub'
 enableRobotsTXT = true
